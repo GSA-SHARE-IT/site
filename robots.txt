@@ -1,4 +1,4 @@
-Sitemap: https://dsacms.github.io/share-it-act-lp/sitemap.xml
+Sitemap: https://gsa-share-it.github.io/site/sitemap.xml
 
 User-agent: usasearch
 Allow: /
