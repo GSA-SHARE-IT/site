@@ -37,6 +37,7 @@ module.exports = function (config) {
 
   config.addPassthroughCopy({ './assets/_common/_img/favicons/favicon.ico': './favicon.ico' });
   config.addPassthroughCopy({ './assets/_common/_img/favicons': './img/favicons' });
+  config.addPassthroughCopy({ './assets/_common/_img/gsa-logo.png': './assets/_common/_img/gsa-logo.png' });
 
   // Set download paths
   // Place files for download in assets/{guide}/dist/{filename.ext}
