@@ -1,18 +1,3 @@
----
-title: Procedures
-description: Tools to create and update metadata in repositories
-permalink: /schema/procedures/
-layout: layouts/page
-tags: shareit
-eleventyNavigation:
-  parent: shareit-schema
-  key: shareit-schema-procedures
-  order: 4
-  title: Procedures
-sidenav: true
-sticky_sidenav: true
----
-
 The CMS Open Source Program Office developed various tools that can automate detecting, adding, and updating metadata to repositories.
 
 **Procedures for Project Teams**:
