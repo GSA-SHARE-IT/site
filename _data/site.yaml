@@ -3,6 +3,7 @@ description: >- # this means to ignore newlines
   Guide to the Source Code Harmonization And Reuse in Information Technology Act: Helping federal agencies comply with software code sharing requirements.
 
 host: https://gsa-share-it.github.io/
+
 # TODO: Digital Analytics Program
 # dap:
 #   agency: GSA
