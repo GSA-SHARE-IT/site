@@ -43,7 +43,7 @@ jobs:
       - name: Build project
         run: npm run build
         env:
-          BASEURL: /share-it-act-lp
+          BASEURL: /site
           GH_API_TOKEN: ${{ secrets.GH_API_TOKEN }}
           NODE_ENV: production
       
