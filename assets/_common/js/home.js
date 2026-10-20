@@ -262,21 +262,9 @@ function initTabs() {
   requestAnimationFrame(() => tablist.classList.add('animate'));
 }
 
-/* ---------- Journey: checklist progress, remembered in this browser only ---------- */
-const STORAGE_KEY = 'shareit-journey-checks';
-
+/* ---------- Journey: checklist progress (starts fresh on every visit) ---------- */
 function initChecklists() {
-  const lists = document.querySelectorAll('[data-checklist]');
-  if (!lists.length) return;
-
-  let saved = {};
-  try {
-    saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') || {};
-  } catch (e) {
-    saved = {};
-  }
-
-  lists.forEach((panel) => {
+  document.querySelectorAll('[data-checklist]').forEach((panel) => {
     const boxes = panel.querySelectorAll('input[type="checkbox"]');
     const progress = panel.querySelector('.progress');
     const count = panel.querySelector('[data-count]');
@@ -293,14 +281,9 @@ function initChecklists() {
     }
 
     boxes.forEach((box) => {
-      if (saved[box.id]) box.checked = true;
+      // Some browsers restore checkbox state on reload; always start unchecked.
+      box.checked = false;
       box.addEventListener('change', () => {
-        saved[box.id] = box.checked;
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
-        } catch (e) {
-          // Storage unavailable (private mode, blocked): progress still works for this visit.
-        }
         update();
         if (motion() && box.checked) {
           animate(box.closest('.check'), [{ transform: 'scale(1)' }, { transform: 'scale(.97)' }, { transform: 'scale(1)' }], { duration: 380, easing: EASE });
