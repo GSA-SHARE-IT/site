@@ -141,5 +141,68 @@ body {
 
 /* Mouse and touch clicks don't need the ring; keyboard focus always gets it */
 :focus:not(:focus-visible) {
-  outline: none;
+  outline: none !important; // some USWDS component :focus rules are more specific
+}
+
+/* Tooltips (USWDS usa-tooltip, restyled): a compact navy card that wraps text */
+.usa-tooltip__body {
+  width: max-content;
+  max-width: min(18rem, calc(100vw - 32px));
+  padding: 12px 14px;
+  border-radius: var(--r-sm);
+  background-color: var(--navy);
+  box-shadow: 0 16px 32px -16px rgba(28, 48, 74, .6);
+  color: #fff;
+  font: 400 0.875rem/1.45 var(--sans);
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+
+  // The arrow follows the term when the tooltip is nudged to stay on screen (home.js).
+  &::after {
+    left: var(--arrow-x, 50%);
+    border-top-color: var(--navy);
+  }
+}
+
+// Bridge the gap between term and tooltip so the pointer can move onto it (WCAG 1.4.13).
+.usa-tooltip__body--top::before,
+.usa-tooltip__body--bottom::before {
+  height: 12px;
+}
+
+// USWDS widens clipped tooltips to half the viewport; keep ours compact instead.
+.usa-tooltip__body--wrap {
+  width: max-content;
+  min-width: 0;
+  text-align: left;
+}
+
+.usa-tooltip__body--bottom::after {
+  border-bottom-color: var(--navy);
+}
+
+.usa-tooltip__body--left::after {
+  border-left-color: var(--navy);
+}
+
+.usa-tooltip__body--right::after {
+  border-right-color: var(--navy);
+}
+
+.tooltip-hint {
+  display: block;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, .2);
+  color: var(--bright);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+@media (forced-colors: active) {
+  .usa-tooltip__body {
+    border: 1px solid CanvasText;
+  }
 }

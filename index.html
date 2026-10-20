@@ -21,10 +21,10 @@ eleventyExcludeFromCollections: true
       <div class="hero-top">
         <p class="eyebrow">Enabling Reuse of Federal Source Code</p>
         {% comment %} Shown by app.js once agency rotation is running (WCAG 2.2.2 pause control) {% endcomment %}
-        <button type="button" class="rotate-toggle" id="rotate-toggle" aria-pressed="false" hidden>
+        <button type="button" class="rotate-toggle" id="rotate-toggle" data-paused="false" hidden>
           <svg class="i-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
           <svg class="i-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
-          <span class="usa-sr-only">Pause rotating agency names</span>
+          <span class="usa-sr-only" data-label>Pause rotating agency names</span>
         </button>
       </div>
       <h1 class="display" id="hero-title">
@@ -77,14 +77,14 @@ eleventyExcludeFromCollections: true
       </div>
       <blockquote class="act-quote" cite="https://www.congress.gov/bill/118th-congress/house-bill/9566">
         <p class="lede" id="features-body">
-          This bill requires federal agencies to ensure that custom-developed code (i.e.,
+          This bill requires federal agencies to ensure that custom-developed code <i>(i.e.,
           <a href="https://dsacms.github.io/ospo-guide/resources/glossary/#source-code" target="_blank" rel="noopener noreferrer" class="term usa-tooltip" data-position="top"
-            title="Source code: A higher level representation of computer commands as they are written by people and, therefore, must be assembled or compiled before a computer can execute the code as a program.">source code</a>
+            title="The human-readable instructions people write, which are compiled into a working program.">source code</a>
           that is produced under an agency contract, funded exclusively by the federal government, or developed by
-          federal employees as part of their official duties) and certain technical components of the code such as
+          federal employees as part of their official duties)</i> and certain technical components of the code such as
           architecture designs and
           <a href="https://dsacms.github.io/ospo-guide/resources/glossary/#metadata" target="_blank" rel="noopener noreferrer" class="term usa-tooltip" data-position="top"
-            title="Metadata: Data about data, or, data that describes other data. A key example would be the information that you see in the file explorer or Finder on a computer, such as date modified, file size, and file type. For the SHARE IT Act, metadata about the software, such as repository location, feedback mechanisms, and related ContractID(s), and contact information about the developers.">metadata</a>
+            title="Information that describes something else. For software: where the code lives, who maintains it, and how it's used.">metadata</a>
           are
         </p>
       </blockquote>
@@ -94,18 +94,17 @@ eleventyExcludeFromCollections: true
       <ol class="pillars" role="list">
         <li class="pillar">
           <span class="pillar-num" aria-hidden="true"><span>1</span></span>
-          <p class="pillar-text"><span class="usa-sr-only">(1) </span>owned by the agency,</p>
+          <p class="pillar-text"><span class="usa-sr-only">(1) </span>owned by the agency</p>
         </li>
         <li class="pillar">
           <span class="pillar-num" aria-hidden="true"><span>2</span></span>
           <p class="pillar-text"><span class="usa-sr-only">(2) </span>stored at no less than one public or private
             <a href="https://dsacms.github.io/ospo-guide/resources/glossary/#repository" target="_blank" rel="noopener noreferrer" class="term usa-tooltip" data-position="top"
-              title="Repository: Also known as “repo.” Repositories are easiest to imagine as a project's folder. A repository contains all of the project files (including documentation), and stores each file's revision history. Repositories can have multiple collaborators and can be either public or private.">repository</a>,
-            and</p>
+              title="A project's folder: all of its files plus the history of every change.">repository</a></p>
         </li>
         <li class="pillar">
           <span class="pillar-num" aria-hidden="true"><span>3</span></span>
-          <p class="pillar-text"><span class="usa-sr-only">(3) </span>accessible to federal employees under certain procedures.</p>
+          <p class="pillar-text"><span class="usa-sr-only">(3) </span>accessible to federal employees under certain procedures</p>
         </li>
       </ol>
     </blockquote>
@@ -116,10 +115,10 @@ eleventyExcludeFromCollections: true
           <blockquote cite="https://www.congress.gov/bill/118th-congress/house-bill/9566"><p>
             Agency contracts for custom-development of
             <a href="https://dsacms.github.io/ospo-guide/resources/glossary/#software" target="_blank" rel="noopener noreferrer" class="term usa-tooltip" data-position="top"
-              title="Software: Refers to (i) computer programs that comprise a series of instructions, rules, routines, or statements, regardless of the media in which recorded, that allow or cause a computer to perform a specific operation or series of operations; and (ii) recorded information comprising source code listings, design details, algorithms, processes, flow charts, formulas, and related material that would enable the computer program to be produced, created, or compiled.">software</a>
+              title="Computer programs, along with the source code and design materials used to build them.">software</a>
             must acquire and exercise rights sufficient to allow government-wide access, sharing,
             <a href="https://dsacms.github.io/ospo-guide/resources/glossary/#software-reuse" target="_blank" rel="noopener noreferrer" class="term usa-tooltip" data-position="top"
-              title="Software reuse: The practice of using existing software components, modules, or code to build new applications, rather than writing everything from scratch.">use</a>,
+              title="Building new applications from existing code instead of starting from scratch.">use</a>,
             and modification of any custom-developed code.
           </p></blockquote>
         </div>
@@ -135,37 +134,16 @@ eleventyExcludeFromCollections: true
           <blockquote cite="https://www.congress.gov/bill/118th-congress/house-bill/9566"><p>
             An agency's office of the chief information officer may
             <a href="https://github.com/DSACMS/gov-codejson/blob/main/docs/exemptions.md" target="_blank" rel="noopener noreferrer" class="term usa-tooltip" data-position="top"
-              title="Exemptions: Conditions defined by the SHARE IT Act or related regulations that prevent a code repository from being publicly released due to legal, security, privacy, or export control restrictions.">exempt</a>
+              title="Legal, security, privacy, or export restrictions that keep code from being released publicly.">exempt</a>
             source code from being shared or made publicly accessible to protect individual privacy.
           </p></blockquote>
         </div>
     </div>
 
     <p class="source-links">
-      Source:
-      <a href="https://www.congress.gov/bill/118th-congress/house-bill/9566" target="_blank" rel="noopener noreferrer">Bill Summary {{ ext }}{{ new_tab }}</a>
+      <a href="https://www.congress.gov/bill/118th-congress/house-bill/9566" target="_blank" rel="noopener noreferrer">Read the bill summary {{ ext }}{{ new_tab }}</a>
+      <a href="https://www.congress.gov/118/plaws/publ187/PLAW-118publ187.pdf" target="_blank" rel="noopener noreferrer">Full text of Public Law 118-187 (PDF) {{ ext }}{{ new_tab }}</a>
     </p>
-
-    <div class="site-help">
-      <h3 id="site-help">This website provides the following to help users become SHARE IT Act ready.</h3>
-      <ul class="help-cards" role="list">
-        <li class="help-card">
-          <span class="help-icon" aria-hidden="true">🏛️</span>
-          <h4 id="the-documentation"><a href="#documentation">The Documentation</a></h4>
-          <p>Library of information, including policies and guides, surrounding federal code sharing.</p>
-        </li>
-        <li class="help-card">
-          <span class="help-icon" aria-hidden="true">🔄</span>
-          <h4 id="the-metadata"><a href="https://github.com/DSACMS/gov-codejson/blob/main/docs/metadata.md">The Metadata {{ ext }}</a></h4>
-          <p>Our code.json schema ensures consistent data collection across all software projects.</p>
-        </li>
-        <li class="help-card">
-          <span class="help-icon" aria-hidden="true">🧰</span>
-          <h4 id="the-tools"><a href="#tools">The Tools</a></h4>
-          <p>Suite of tools for generating, validating, and maintaining your projects code.json file.</p>
-        </li>
-      </ul>
-    </div>
   </div>
 </section>
 
@@ -174,8 +152,8 @@ eleventyExcludeFromCollections: true
   <div class="wrap">
     <div class="section-head">
       <div>
-        <p class="eyebrow">Your journey</p>
-        <h2 class="display h2" id="journey-heading">SHARE IT Act Journey</h2>
+        <p class="eyebrow">SHARE IT Act Journey</p>
+        <h2 class="display h2" id="journey-heading">Compliance in a few steps.</h2>
       </div>
       <p class="lede">
         Complete the following steps to bring your repository and agency into compliance with the SHARE IT Act
@@ -318,18 +296,25 @@ eleventyExcludeFromCollections: true
     <div class="section-head">
       <div>
         <p class="eyebrow">Utilities</p>
-        <h2 class="display h2" id="tools-heading">Tools</h2>
+        <h2 class="display h2" id="tools-heading">Four tools to help.</h2>
       </div>
-      <p class="lede">Utilities and tools to help generate, validate, and manage, and visualize repository metadata.</p>
+      <p class="lede">Utilities and tools to help generate, validate, manage, and visualize repository metadata.</p>
     </div>
 
     <div class="tool-grid">
       <article class="tool" aria-labelledby="repository-discovery-form">
-        <div class="tool-meta"><span class="badge">Webform</span><span>Interactive · Browser</span></div>
-        <div class="form-mock" aria-hidden="true">
-          <div><div class="field-label">Repository name</div><div class="field">site</div></div>
-          <div><div class="field-label">Repository URL</div><div class="field">github.com/GSA-SHARE-IT/site</div></div>
-          <div class="fake-btn">Submit</div>
+        <div class="tool-meta"><span class="badge">Webform</span><span>Browser</span></div>
+        <div class="survey-mock" aria-hidden="true">
+          <div class="survey-head">
+            <span>Question 3 of 8</span>
+            <span class="survey-steps"><i class="done"></i><i class="done"></i><i class="current"></i><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+          <p class="survey-q">Is the repository public or private?</p>
+          <div class="survey-options">
+            <div class="opt is-picked"><span class="radio"></span><span><strong>Public</strong><small>Anyone can view the source</small></span></div>
+            <div class="opt"><span class="radio"></span><span><strong>Private</strong><small>Restricted to the agency</small></span></div>
+          </div>
+          <div class="survey-foot"><span class="survey-back">Back</span><span class="survey-next">Next</span></div>
         </div>
         <div class="tool-copy">
           <h3 class="display" id="repository-discovery-form">Repository Discovery Form</h3>
@@ -341,7 +326,7 @@ eleventyExcludeFromCollections: true
       </article>
 
       <article class="tool" aria-labelledby="web-form-generator">
-        <div class="tool-meta"><span class="badge">Webform</span><span>Interactive · Browser</span></div>
+        <div class="tool-meta"><span class="badge">Webform</span><span>Browser</span></div>
         <div class="form-mock" aria-hidden="true">
           <div><div class="field-label">Project name</div><div class="field">site</div></div>
           <div><div class="field-label">Organization</div><div class="field">Centers for Medicare &amp; Medicaid Services</div></div>
@@ -358,7 +343,7 @@ eleventyExcludeFromCollections: true
       </article>
 
       <article class="tool tool-dark on-dark" aria-labelledby="automated-generator">
-        <div class="tool-meta"><span class="badge">GitHub Action</span><span>Automation · CI/CD</span></div>
+        <div class="tool-meta"><span class="badge">GitHub Action</span><span>Github Action</span></div>
         <ol class="pipeline" aria-hidden="true">
           <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00CFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M5 12l5 5L20 7"/></svg>Detect languages</li>
           <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00CFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M5 12l5 5L20 7"/></svg>Compute labor hours</li>
@@ -375,7 +360,7 @@ eleventyExcludeFromCollections: true
       </article>
 
       <article class="tool" aria-labelledby="index-generator">
-        <div class="tool-meta"><span class="badge">CLI</span><span>Python · Aggregation</span></div>
+        <div class="tool-meta"><span class="badge">CLI</span><span>Browser</span></div>
 <pre class="terminal" aria-hidden="true"><span class="p">›</span> Scanning agency GitHub organizations…
 <span class="p">›</span> Collecting code.json from each repository
 <span class="ok">✓</span> Wrote agency-index.json</pre>

@@ -1,0 +1,287 @@
+/*---------------------------------------------------------
+Homepage interaction and motion
+`.motion` is set on <html> only when the visitor hasn't asked for
+reduced motion (see meta.html). Nothing here hides content without it.
+----------------------------------------------------------*/
+
+/* Tabs: sliding pill indicator */
+.tab-indicator {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  z-index: -1;
+  width: 0;
+  border-radius: var(--pill);
+  background: #fff;
+  box-shadow: 0 6px 16px -8px rgba(0, 0, 0, .4);
+
+  @media (forced-colors: active) {
+    display: none;
+  }
+}
+
+.tabs.has-indicator .tab[aria-selected="true"] {
+  background: transparent;
+
+  @media (forced-colors: active) {
+    outline: 2px solid Highlight;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tabs.animate .tab-indicator {
+    transition: transform .55s var(--ease-out), width .55s var(--ease-out);
+  }
+
+  .tab {
+    transition: color .3s ease;
+  }
+
+  .bar > span {
+    transition: width .7s var(--ease-spring);
+  }
+
+  .glyph-agency:active {
+    transform: scale(.96);
+  }
+}
+
+.glyph .roll {
+  display: inline-block;
+}
+
+/* Hero load sequence (CSS-driven so nothing flashes before the script runs).
+   Scroll reveals further down use the Web Animations API in home.js instead. */
+.motion .hero-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.motion .hero-reveal.in {
+  opacity: 1;
+  transform: none;
+  transition: opacity .9s var(--ease-out), transform 1s var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+
+/* Hero headline: word-by-word */
+.motion #hero-title.split .w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(.38em);
+  filter: blur(10px);
+}
+
+// The agency chip and flag keep their flex centering when split into words.
+.motion #hero-title.split .glyph.w {
+  display: inline-flex;
+}
+
+.motion #hero-title.split.in .w {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+  transition: opacity .8s var(--ease-out), transform 1s var(--ease-out), filter .8s var(--ease-out);
+  transition-delay: calc(var(--i) * 45ms + var(--d0, 0ms));
+}
+
+/* Scroll reveals: home.js adds .pre-reveal just before an element scrolls in,
+   then removes it and animates the element in once it's on screen. */
+.motion .pre-reveal:not(.split) {
+  opacity: 0;
+  transform: translateY(28px);
+
+  .pillar-num > span {
+    transform: translateY(100%);
+  }
+}
+
+.motion .pre-reveal.split .w {
+  opacity: 0;
+  transform: translateY(.38em);
+  filter: blur(10px);
+}
+
+/* Split headings below the fold animate per word via home.js */
+.split .w {
+  display: inline-block;
+}
+
+.split .glyph.w {
+  display: inline-flex;
+}
+
+/* Hero code card: rises and settles in 3D, then follows the pointer */
+.code-card .line {
+  display: block;
+}
+
+.motion .code-card {
+  opacity: 0;
+  transform: perspective(1400px) translateY(56px) rotateX(12deg) scale(.95);
+
+  &.in {
+    opacity: 1;
+    transform: perspective(1400px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: opacity 1s var(--ease-out) .35s, transform 1.3s var(--ease-out) .35s;
+  }
+
+  &.settled {
+    transition: transform .5s var(--ease-out);
+  }
+
+  .line {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  &.in .line {
+    opacity: 1;
+    transform: none;
+    transition: opacity .5s var(--ease-out), transform .6s var(--ease-out);
+    transition-delay: calc(750ms + var(--i) * 70ms);
+  }
+
+  .valid {
+    opacity: 0;
+    transform: scale(.6);
+  }
+
+  &.in .valid {
+    opacity: 1;
+    transform: none;
+    transition: opacity .3s ease 1.7s, transform .7s var(--ease-spring) 1.7s;
+  }
+
+  .valid path {
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
+  }
+
+  &.in .valid path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset .5s var(--ease-out) 1.95s;
+  }
+
+  figcaption {
+    opacity: 0;
+  }
+
+  &.in figcaption {
+    opacity: 1;
+    transition: opacity .8s ease 2s;
+  }
+}
+
+/* Tools: pipeline runs step by step, checkmarks draw in.
+   `armed` is added just before the card scrolls into view, so the dimmed
+   starting state never sits on the page at rest. */
+.motion .pipeline.armed {
+  li {
+    opacity: .35;
+    transform: translateY(8px);
+  }
+
+  path {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+  }
+
+  &.run li {
+    opacity: 1;
+    transform: none;
+    transition: opacity .5s ease, transform .6s var(--ease-out), background-color .5s ease;
+    transition-delay: calc(var(--i) * 380ms);
+  }
+
+  &.run path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset .7s var(--ease-out);
+    transition-delay: calc(var(--i) * 380ms + 150ms);
+  }
+
+  &.run li:last-child svg {
+    animation: spin-in 1.1s var(--ease-out) calc(3 * 380ms + 250ms) both;
+  }
+}
+
+@keyframes spin-in {
+  from { transform: rotate(-270deg); }
+  to { transform: none; }
+}
+
+/* Discovery questionnaire: the next step fills and an answer is picked */
+.motion .survey-mock {
+  .survey-steps .current { background: var(--soft-line); }
+  .opt.is-picked { border-color: var(--line); background: var(--panel); }
+  .opt.is-picked .radio { border-color: #71767a; background: var(--panel); box-shadow: none; }
+
+  &.play {
+    .survey-steps .current {
+      background: var(--medium);
+      transition: background-color .4s ease .2s;
+    }
+
+    .opt.is-picked {
+      border-color: var(--primary);
+      background: var(--tint);
+      transition: border-color .3s ease .7s, background-color .3s ease .7s;
+    }
+
+    .opt.is-picked .radio {
+      border-color: var(--primary);
+      background: var(--primary);
+      box-shadow: inset 0 0 0 4px var(--panel);
+      transition: border-color .3s ease .7s, background-color .3s ease .7s, box-shadow .4s var(--ease-spring) .7s;
+    }
+
+    .survey-next {
+      animation: pulse-light 1.2s var(--ease-out) 1.3s 1;
+    }
+  }
+}
+
+@keyframes pulse-light {
+  0% { box-shadow: 0 0 0 0 rgba(28, 48, 74, .45); }
+  100% { box-shadow: 0 0 0 14px rgba(28, 48, 74, 0); }
+}
+
+/* Typing caret for the form mocks and terminal (removed when typing ends) */
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: currentColor;
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.fake-btn.pulse {
+  animation: pulse 1.2s var(--ease-out) 1;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(28, 48, 74, .45); }
+  100% { box-shadow: 0 0 0 16px rgba(28, 48, 74, 0); }
+}
+
+/* Never print half-revealed content */
+@media print {
+  .motion .hero-reveal,
+  .motion .pre-reveal,
+  .motion .pre-reveal .w,
+  .motion .pre-reveal .pillar-num > span,
+  .motion #hero-title .w,
+  .motion .code-card,
+  .motion .code-card * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}

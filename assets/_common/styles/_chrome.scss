@@ -82,7 +82,6 @@ uswds.js keeps handling submenus and the mobile drawer.
     justify-content: space-between;
     gap: 24px;
     max-width: 1200px;
-    min-height: var(--header-h);
     padding-inline: var(--gutter);
   }
 
@@ -216,7 +215,7 @@ uswds.js keeps handling submenus and the mobile drawer.
 }
 
 /* Nav: mobile drawer */
-@include at-media-max('desktop-lg') {
+@include at-media-max('desktop') {
   .site-menu-btn.usa-menu-btn {
     display: inline-flex;
   }
@@ -268,33 +267,48 @@ uswds.js keeps handling submenus and the mobile drawer.
   }
 }
 
-/* Nav: desktop inline */
-@include at-media('desktop-lg') {
+/* Nav: desktop, two rows. Row 1 is the brand with search and the CTA on the
+   right; row 2 is the site sections. Search and CTA stay inside the nav
+   (so they're in the mobile drawer) and are lifted into row 1 here. */
+@include at-media('desktop') {
+  :root {
+    --header-h: 113px;
+  }
+
   .site-header {
+    .usa-nav-container {
+      display: block;
+      position: relative;
+    }
+
+    // Only as wide as the brand, so the search and CTA lifted into this row don't overlap it.
     .usa-navbar {
-      width: auto;
-      min-height: 0;
+      width: fit-content;
+      height: 64px;
+      min-height: 64px;
     }
 
     .usa-nav {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0;
+      display: block;
+      position: static;
+      float: none;
       width: auto;
+      padding: 0;
+      border-top: 1px solid var(--soft-line);
     }
 
     .usa-nav__primary {
       display: flex;
-      align-items: center;
+      align-items: stretch;
+      gap: 4px;
+      margin-left: -12px;
     }
 
     .usa-nav__primary > .usa-nav__primary-item > .usa-nav__link {
       display: inline-flex;
       align-items: center;
-      min-height: 44px;
-      padding: 0 8px;
-      border-radius: var(--pill);
+      min-height: 48px;
+      padding: 0 12px;
       color: var(--heading);
       font: 500 0.9375rem/1.2 var(--sans);
       white-space: nowrap;
@@ -310,10 +324,10 @@ uswds.js keeps handling submenus and the mobile drawer.
       }
 
       &.usa-current::after {
-        left: 8px;
-        right: 8px;
-        bottom: 4px;
-        height: 2px;
+        left: 12px;
+        right: 12px;
+        bottom: -1px;
+        height: 3px;
         background-color: var(--primary);
       }
 
@@ -321,10 +335,15 @@ uswds.js keeps handling submenus and the mobile drawer.
         background-color: var(--tint);
         color: var(--heading);
       }
+
+      // USWDS paints the open chevron white for its dark button; ours is light.
+      &[aria-expanded="true"] span::after {
+        background-color: var(--heading);
+      }
     }
 
     .usa-nav__submenu {
-      top: calc(100% + 8px);
+      top: calc(100% + 6px);
       width: 14rem;
       padding: 8px;
       border: 1px solid var(--soft-line);
@@ -347,10 +366,14 @@ uswds.js keeps handling submenus and the mobile drawer.
       }
     }
 
-    .usa-search {
-      .usa-input {
-        width: 8rem;
-      }
+    .site-nav-actions {
+      position: absolute;
+      top: 10px;
+      right: var(--gutter);
+    }
+
+    .usa-search .usa-input {
+      width: 14rem;
     }
   }
 }
