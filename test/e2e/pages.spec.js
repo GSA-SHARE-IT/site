@@ -48,6 +48,11 @@ test.describe('mobile', () => {
   PAGES.forEach((path) => {
     test(`${path} has no horizontal page scroll`, async ({ page }) => {
       await page.goto(path);
+      // Fonts load after `load` (font-display: swap). Measuring earlier tests
+      // the machine's fallback fonts, which differ between macOS and CI.
+      await page.evaluate(async () => {
+        await document.fonts.ready;
+      });
       const overflow = await page.evaluate(
         () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
       );
