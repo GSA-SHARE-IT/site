@@ -274,29 +274,28 @@ module.exports = function (config) {
     if (!outputPath || !outputPath.endsWith('.html') || !content.includes('<table')) {
       return content;
     }
-    const headingPattern = /<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/g;
     const captionPattern = /<p><strong>([^<]+)<\/strong><\/p>\s*$/;
     const used = {};
-    return content.replace(/<table[\s\S]*?<\/table>/g, (table, offset) => {
-      let label = 'Table';
-      const before = content.slice(0, offset);
-      let match = headingPattern.exec(before);
-      while (match) {
-        label = match[1];
-        match = headingPattern.exec(before);
+    let heading = 'Table';
+    // One pass over headings and tables in page order, remembering the last heading.
+    const pattern = /<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>|<table[\s\S]*?<\/table>/g;
+    return content.replace(pattern, (match, headingHTML, offset) => {
+      if (headingHTML !== undefined) {
+        heading = headingHTML;
+        return match;
       }
-      headingPattern.lastIndex = 0;
       // Drop the permalink anchor and any markup from the heading text
-      label = label.replace(/<a[^>]*heading-permalink[\s\S]*?<\/a>/g, '')
+      let label = heading.replace(/<a[^>]*heading-permalink[\s\S]*?<\/a>/g, '')
         .replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() || 'Table';
-      // A bold caption line right above the table (e.g. "Legend") narrows the name
-      const caption = before.match(captionPattern);
+      // A bold caption line right above the table (e.g. "Legend") narrows the name.
+      // Only the text just before the table can hold it, so don't search the whole page.
+      const caption = content.slice(Math.max(0, offset - 500), offset).match(captionPattern);
       if (caption) label = `${label}: ${caption[1].trim()}`;
       // Keep region names unique on the page
       used[label] = (used[label] || 0) + 1;
       if (used[label] > 1) label = `${label} (${used[label]})`;
       const safeLabel = label.replace(/&(?![a-z#0-9]+;)/gi, '&amp;').replace(/"/g, '&quot;');
-      return `<div class="table-scroll" role="region" tabindex="0" aria-label="${safeLabel} table">${table}</div>`;
+      return `<div class="table-scroll" role="region" tabindex="0" aria-label="${safeLabel} table">${match}</div>`;
     });
   });
 

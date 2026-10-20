@@ -13,8 +13,6 @@ sidenav: true
 sticky_sidenav: true
 ---
 
-# Exemptions
-
 ## [SHARE IT Act](https://www.congress.gov/bill/118th-congress/house-bill/9566/text/ih) Exemptions
 
 ### Sign off on risk acceptance of open-sourcing the software product

@@ -16,6 +16,13 @@ function animate(el, keyframes, options) {
   if (el && el.animate) el.animate(keyframes, options);
 }
 
+function onFontsReady(fn) {
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fn);
+}
+
+// Lets the inline script in meta.html know this file loaded (see its fallback).
+root.dataset.homeJs = 'loaded';
+
 /* ---------- Header frosts once the page scrolls ---------- */
 function initHeaderScroll() {
   const header = document.querySelector('.site-header');
@@ -46,11 +53,9 @@ function initAgencyRotation() {
       chip.textContent = next;
       return;
     }
-    const before = chip.getBoundingClientRect().width;
+    // No width animation: lockWidth pins the chip to the widest name.
     chip.innerHTML = '<span class="roll"></span>';
     chip.firstChild.textContent = next;
-    const after = chip.getBoundingClientRect().width;
-    animate(chip, [{ width: `${before}px` }, { width: `${after}px` }], { duration: 450, easing: EASE });
     animate(chip.firstChild, [
       { transform: 'translateY(90%)', opacity: 0, filter: 'blur(4px)' },
       { transform: 'none', opacity: 1, filter: 'blur(0)' },
@@ -104,8 +109,13 @@ function initAgencyRotation() {
   });
 
   lockWidth();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(lockWidth);
-  window.addEventListener('resize', lockWidth);
+  onFontsReady(lockWidth);
+  // Measuring is 19 forced layouts, so wait until resizing settles.
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(lockWidth, 150);
+  });
 
   toggle.hidden = false;
   syncToggle();
@@ -144,8 +154,8 @@ function placeTooltip(trigger, body) {
 }
 
 function initTooltips() {
-  const triggers = document.querySelectorAll('.term.usa-tooltip__trigger');
-  triggers.forEach((trigger) => {
+  const bodies = new Map();
+  document.querySelectorAll('.term.usa-tooltip__trigger').forEach((trigger) => {
     const body = document.getElementById(trigger.getAttribute('aria-describedby'));
     if (!body || body.querySelector('.tooltip-hint')) return;
 
@@ -156,15 +166,18 @@ function initTooltips() {
     hint.innerHTML = 'Select for the full definition <span aria-hidden="true">↗</span>'
       + '<span class="usa-sr-only"> (opens in a new tab)</span>';
     body.append(' ', hint);
-
-    // USWDS positions on mouseover/focusin at document.body; these listeners on
-    // the document run after it.
-    const reposition = (e) => {
-      if (e.target === trigger) placeTooltip(trigger, body);
-    };
-    document.addEventListener('mouseover', reposition);
-    document.addEventListener('focusin', reposition);
+    bodies.set(trigger, body);
   });
+  if (!bodies.size) return;
+
+  // USWDS positions on mouseover/focusin at document.body; these listeners on
+  // the document run after it.
+  const reposition = (e) => {
+    const body = bodies.get(e.target);
+    if (body) placeTooltip(e.target, body);
+  };
+  document.addEventListener('mouseover', reposition);
+  document.addEventListener('focusin', reposition);
 }
 
 /* ---------- Journey: ARIA tabs with a sliding indicator ---------- */
@@ -242,7 +255,12 @@ function initTabs() {
 
   // Deep links to anything inside a panel (e.g. #for-agencies) open that panel.
   function selectFromHash() {
-    const id = decodeURIComponent(window.location.hash.slice(1));
+    let id;
+    try {
+      id = decodeURIComponent(window.location.hash.slice(1));
+    } catch (err) {
+      return false; // malformed escape in the link, e.g. #%E0%A4
+    }
     const target = id && document.getElementById(id);
     const index = target ? panels.findIndex((p) => p.contains(target)) : -1;
     if (index >= 0) {
@@ -258,7 +276,7 @@ function initTabs() {
   ready = true;
   window.addEventListener('hashchange', selectFromHash);
   window.addEventListener('resize', placeIndicator);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeIndicator);
+  onFontsReady(placeIndicator);
   requestAnimationFrame(() => tablist.classList.add('animate'));
 }
 
@@ -375,7 +393,7 @@ function initMotion() {
       setTimeout(() => card.classList.add('settled'), 1800);
     });
   };
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(startHero);
+  onFontsReady(startHero);
   setTimeout(startHero, 700);
 
   // Gentle 3D tilt that follows the pointer
@@ -492,10 +510,12 @@ function initMotion() {
     { cls: 'p', mark: '›', text: 'Collecting code.json from each repository' },
     { cls: 'ok', mark: '✓', text: 'Wrote agency-index.json' },
   ];
-  terminal.style.minHeight = `${terminal.offsetHeight}px`;
-  terminal.innerHTML = '<span class="caret"></span>';
+  // One empty row per line, so the box is full height from the start and the
+  // text types into those rows instead of growing the box.
+  terminal.innerHTML = termLines.map((_, i) => `<div>${i ? '&nbsp;' : '<span class="caret"></span>'}</div>`).join('');
 
   function typeTerminal(el) {
+    const rows = Array.from(el.children);
     let li = 0;
     let ci = 0;
     let line = null;
@@ -508,10 +528,9 @@ function initMotion() {
       }
       const L = termLines[li];
       if (!line) {
-        line = document.createElement('div');
+        line = rows[li];
         line.innerHTML = `<span class="${L.cls}">${L.mark}</span> <span class="t"></span>`;
-        // The caret lives at the end of the current line, so append the new line and move it there.
-        el.appendChild(line);
+        // The caret lives at the end of the current line, so move it there.
         line.appendChild(caret);
       }
       const t = line.querySelector('.t');
@@ -578,11 +597,13 @@ function initMotion() {
 }
 
 function init() {
-  initHeaderScroll();
-  initTooltips();
-  initAgencyRotation();
-  initTabs();
-  initChecklists();
+  [initHeaderScroll, initTooltips, initAgencyRotation, initTabs, initChecklists].forEach((setup) => {
+    try {
+      setup();
+    } catch (err) {
+      // One broken feature shouldn't stop the others from loading.
+    }
+  });
   try {
     initMotion();
   } catch (err) {

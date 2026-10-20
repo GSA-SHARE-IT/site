@@ -58,6 +58,13 @@ to modify some of the meta-data for the site, this is the place to do it.
     // Turn on decorative motion only for visitors who haven't asked to reduce it.
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: no-preference)').matches && 'IntersectionObserver' in window) {
       document.documentElement.classList.add('motion');
+      // Motion hides the hero code card until home.js reveals it. If that script
+      // is blocked or never loads, drop motion so the card isn't stuck hidden.
+      setTimeout(function () {
+        if (!document.documentElement.hasAttribute('data-home-js')) {
+          document.documentElement.classList.remove('motion');
+        }
+      }, 3000);
     }
   </script>
 
