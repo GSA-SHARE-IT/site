@@ -267,6 +267,53 @@ module.exports = function (config) {
     return inlineHTMLDefaultRender(tokens, idx, options, env, self);
   }
 
+  // Wrap every table (Markdown or raw HTML) in a keyboard-scrollable region so
+  // wide tables scroll on their own instead of the whole page (WCAG 1.4.10).
+  // Each region is named after the closest heading above it.
+  config.addTransform('scrollable-tables', (content, outputPath) => {
+    if (!outputPath || !outputPath.endsWith('.html') || !content.includes('<table')) {
+      return content;
+    }
+    const headingPattern = /<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/g;
+    const captionPattern = /<p><strong>([^<]+)<\/strong><\/p>\s*$/;
+    const used = {};
+    return content.replace(/<table[\s\S]*?<\/table>/g, (table, offset) => {
+      let label = 'Table';
+      const before = content.slice(0, offset);
+      let match = headingPattern.exec(before);
+      while (match) {
+        label = match[1];
+        match = headingPattern.exec(before);
+      }
+      headingPattern.lastIndex = 0;
+      // Drop the permalink anchor and any markup from the heading text
+      label = label.replace(/<a[^>]*heading-permalink[\s\S]*?<\/a>/g, '')
+        .replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() || 'Table';
+      // A bold caption line right above the table (e.g. "Legend") narrows the name
+      const caption = before.match(captionPattern);
+      if (caption) label = `${label}: ${caption[1].trim()}`;
+      // Keep region names unique on the page
+      used[label] = (used[label] || 0) + 1;
+      if (used[label] > 1) label = `${label} (${used[label]})`;
+      const safeLabel = label.replace(/&(?![a-z#0-9]+;)/gi, '&amp;').replace(/"/g, '&quot;');
+      return `<div class="table-scroll" role="region" tabindex="0" aria-label="${safeLabel} table">${table}</div>`;
+    });
+  });
+
+  // Code blocks can scroll sideways on narrow screens; make them reachable by
+  // keyboard and give each a unique name. Skips blocks that are decorative
+  // (aria-hidden) or already focusable.
+  config.addTransform('scrollable-code', (content, outputPath) => {
+    if (!outputPath || !outputPath.endsWith('.html') || !content.includes('<pre')) {
+      return content;
+    }
+    let count = 0;
+    return content.replace(/<pre(?![^>]*(?:tabindex|aria-hidden))([^>]*)>/g, (match, attrs) => {
+      count += 1;
+      return `<pre${attrs} tabindex="0" role="region" aria-label="Code example ${count}">`;
+    });
+  });
+
   // Override Browsersync defaults (used only with --serve)
   config.setBrowserSyncConfig({
     callbacks: {

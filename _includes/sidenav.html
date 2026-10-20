@@ -4,7 +4,7 @@ _layouts/page.html layout template, or you can add "sidenav: true" in the front-
 {% endcomment %}
 
 <aside class="usa-layout-docs-sidenav desktop:grid-col-3 padding-bottom-4">
-  <nav class="{% if sticky_sidenav %} position-sticky top-1 {% endif%} ">
+  <nav class="site-sidenav{% if sticky_sidenav %} is-sticky{% endif %}" aria-label="{{ eleventyNavigation.parent | remove: 'shareit-' | capitalize }} pages">
     <ul class="usa-sidenav">
       {% if eleventyNavigation.parent %}
         {% assign links = collections.all | eleventyNavigation: eleventyNavigation.parent %}
@@ -18,7 +18,7 @@ _layouts/page.html layout template, or you can add "sidenav: true" in the front-
         {% endif %}
         <li class="usa-sidenav__item">
           <a href="{{ link.url | url }}"
-             {% if _current %} class="usa-current" {% endif %}
+             {% if _current %} class="usa-current" aria-current="page" {% endif %}
           >
            {{ link.title }}
           </a>
