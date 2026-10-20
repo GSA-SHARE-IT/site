@@ -7,20 +7,6 @@ styling for landing page only
   max-width: 80rem;
 }
 
-/* Layout utilities */
-.grid-row {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.grid-gap-lg {
-  gap: 2rem;
-}
-
-.tablet\:grid-col-6 {
-  flex-basis: 50%;
-}
-
 /* Accessibility */
 .skip-link {
   position: absolute;
@@ -399,85 +385,14 @@ styling for landing page only
 
 /* Responsive styles */
 @media (max-width: 768px) {
-
-  /* Mobile menu */
-  .menu-toggle {
-    display: block;
-  }
-
-  nav ul {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: $white;
-    flex-direction: column;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  nav ul.show {
-    display: flex;
-  }
-
-  nav ul li {
-    margin: 10px 0;
-  }
-
-  /* Layout adjustments */
-  .header-content {
-    flex-wrap: wrap;
-  }
-
-  /* Button adjustments */
   .cta-buttons {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .btn {
-    margin: 10px 0;
-    width: 100%;
-    max-width: 250px;
-    text-align: center;
-  }
-
-  .btn-outline {
-    margin-left: 0;
-  }
-
-  /* Section and title adjustments */
   .section-title h2 {
     font-size: 1.8rem;
-  }
-
-  .cms-logo img {
-    height: 40px;
-  }
-
-  /* Footer responsive */
-  .footer-links-wrapper {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .cms-identifier {
-    flex-direction: column;
-  }
-
-  .cms-logos {
-    margin-bottom: 1rem;
-  }
-
-  .usagov-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .footer-links-group {
-    width: 100%;
   }
 }
 

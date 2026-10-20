@@ -138,3 +138,8 @@ body {
 @media (forced-colors: active) {
   .btn { border-color: ButtonText; }
 }
+
+/* Mouse and touch clicks don't need the ring; keyboard focus always gets it */
+:focus:not(:focus-visible) {
+  outline: none;
+}

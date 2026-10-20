@@ -1,68 +1,65 @@
-{% comment %} To modify the menu system, you are welcome to edit this HTML
-directly or you can look inside _config.yml where we provide an easy way to
-manage your navigation system {% endcomment %}
+{% comment %}
+Primary header. Nav items come from _data/navigation.yaml. The markup follows the
+USWDS basic header so uswds.js keeps handling submenus, Esc, and the mobile drawer
+(with its focus trap); _chrome.scss restyles it.
+{% endcomment %}
 
-<header class="usa-header usa-header--extended" role="banner">
-  <div class="usa-navbar">
-    {% include "logo.html" %}
-    <button type="button" class="usa-menu-btn">Menu</button>
-  </div>
-  <nav id="menu-navigation" aria-label="Menu navigation" role="navigation" class="usa-nav">
-    <div class="usa-nav__inner">
-      <button type="button" class="usa-nav__close">
-        {% image "./node_modules/@uswds/uswds/dist/img/usa-icons/close.svg" "close" %}
+{% assign basedir = page.url | remove_first: '/' | split: '/' | first | lstrip %}
+
+<header class="usa-header usa-header--basic site-header">
+  <div class="usa-overlay"></div>
+  <div class="usa-nav-container">
+    <div class="usa-navbar">
+      {% include "logo.html" %}
+      <button type="button" class="usa-menu-btn site-menu-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 8h16"/><path d="M4 16h16"/></svg>
+        <span>Menu</span>
+      </button>
+    </div>
+    <nav id="menu-navigation" aria-label="Primary" class="usa-nav">
+      <button type="button" class="usa-nav__close" aria-label="Close menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
       </button>
       <ul class="usa-nav__primary usa-accordion">
         {% for nav_item in primary_navigation %}
         {% unless nav_item.children %}
-        {% assign basedir = page.url | remove_first: '/' | split: '/' | first | lstrip %}
         {% assign linkdir = nav_item.url | replace: "/", "" | lstrip %}
         <li class="usa-nav__primary-item">
           <a class="usa-nav__link{% if basedir == linkdir %} usa-current{% endif %}" href="{{ nav_item.url | url }}"
+            {% if basedir == linkdir %}aria-current="page"{% endif %}
             {% if nav_item.download %}download{% endif %}><span>{{ nav_item.name | escape }}</span>
+            {%- if nav_item.url contains '://' %}<span class="nav-ext" aria-hidden="true">↗</span><span class="usa-sr-only"> (external link)</span>{% endif %}
             {% if nav_item.download %}
             <span class="download-icon">{% uswds_icon "file_download" %}</span>
             {% endif %}
           </a>
         </li>
-        {% else %} {% assign nav_id = 'primary-nav-' | append: forloop.index %}
+        {% else %}
+        {% assign nav_id = 'primary-nav-' | append: forloop.index %}
+        {% assign linkdir = nav_item.url | replace: "/", "" | lstrip %}
         <li class="usa-nav__primary-item">
-          <button class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="{{ nav_id }}"
+          <button class="usa-accordion__button usa-nav__link{% if basedir == linkdir %} usa-current{% endif %}" aria-expanded="false" aria-controls="{{ nav_id }}"
             type="button">
             <span>{{ nav_item.name | escape }}</span>
           </button>
           <ul id="{{ nav_id }}" class="usa-nav__submenu">
             {% for subnav_item in nav_item.children %}
             <li class="usa-nav__submenu-item">
-              <a href="{{ subnav_item.url | url }}">{{ subnav_item.name | escape }}</a>
+              <a href="{{ subnav_item.url | url }}" class="usa-nav__link">
+                <span>{{ subnav_item.name | escape }}</span>
+                {%- if subnav_item.url contains '://' %}<span class="nav-ext" aria-hidden="true">↗</span><span class="usa-sr-only"> (external link)</span>{% endif %}
+              </a>
             </li>
             {% endfor %}
           </ul>
         </li>
-        {% endunless %} {% endfor %}
+        {% endunless %}
+        {% endfor %}
       </ul>
-      {% comment %}
-      TODO: The conditional and bottom-2 class on the line below can be removed after launch.
-      It's there to fix wonky alignment when search is present on the index page
-      {% endcomment%}
-      {% comment %}
-      {% endcomment%}
-      <div class="usa-nav__secondary {% unless tags %} bottom-2 {% endunless %}">
-        {% if navigation.secondary_navigation %}
-        <ul class="usa-nav__secondary-links">
-          {% for nav_item in navigation.secondary_navigation %}
-          {% if nav_item.guides == nil or nav_item.guides contains tags[0] %}
-          <li class="usa-nav__secondary-item">
-            <a href="{{ nav_item.url | url }}" class="text-bold">
-              {{ nav_item.name | escape }}
-            </a>
-          </li>
-          {% endif %}
-          {% endfor %}
-        </ul>
-        {% endif %}
+      <div class="site-nav-actions">
         {% include "searchgov/form.html" searchgov: site.searchgov %}
+        <a class="btn btn-cta site-nav-cta" href="{{ '/' | url }}#journey">Get started</a>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </div>
 </header>

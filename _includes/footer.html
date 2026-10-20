@@ -1,15 +1,39 @@
-<footer class="usa-footer site-footer" role="contentinfo">
-  <div class="footer-section-bottom bg-base-darker">
-    <div class="grid-container">
-      <div class="grid-row">
-        <div class="grid-col usa-dark-background">
-          <p class="margin-bottom-0 text-white"> This site is maintained by <a class="usa-link text-primary-dark" href="https://www.cms.gov/digital-service/open-source-program-office"> the CMS Open Source Program Office.</a>.</p>
-          <p class="margin-bottom-0 margin-top-05 text-white"> Read our <a class="usa-link text-primary-dark" href="https://github.com/DSACMS/ospo-guide/blob/main/LINKING_POLICY.md">linking policy</a>.</p>
-          <p class="margin-top-05 text-white"> Have questions or want to contact us? Email us at <a class="usa-link text-primary-dark" href="mailto:opensource@cms.hhs.gov">opensource@cms.hhs.gov</a>.</p>
-        </div>
+{% comment %}
+Site footer. Combines the maintainer details with the agency identifier
+(required links, agency identity, and USA.gov link).
+{% endcomment %}
+<footer class="site-footer on-dark">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-about">
+        <p class="footer-title">{{ site.title }}</p>
+        <p>This site is maintained by <a href="https://www.cms.gov/digital-service/open-source-program-office">the CMS Open Source Program Office</a>.</p>
+        <p>Read our <a href="https://github.com/DSACMS/ospo-guide/blob/main/LINKING_POLICY.md">linking policy</a>.</p>
+        <p>Have questions or want to contact us? Email us at <a href="mailto:opensource@cms.hhs.gov">opensource@cms.hhs.gov</a>.</p>
       </div>
+      <nav class="footer-links-nav" aria-label="Important links">
+        <ul class="footer-links">
+          <li><a href="https://www.gsa.gov/about-gsa">About GSA</a></li>
+          <li><a href="https://www.hhs.gov/web/section-508/hhs-digital-accessibility-statement/index.html">Accessibility statement</a></li>
+          <li><a href="https://www.hhs.gov/foia/index.html">FOIA requests</a></li>
+          <li><a href="https://www.hhs.gov/about/agencies/asa/eeo/no-fear-act/index.html">No FEAR Act data</a></li>
+          <li><a href="https://www.oig.hhs.gov/">Office of the Inspector General</a></li>
+          <li><a href="https://www.hhs.gov/about/budget/budget-in-brief/index.html">Performance reports</a></li>
+          <li><a href="https://www.hhs.gov/web/policies-and-standards/hhs-web-policies/privacy/index.html">Privacy policy</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <section class="footer-identity" aria-label="Agency identifier">
+        {% image_with_class "assets/_common/_img/gsa-logo.png" "footer-identity__logo" "" %}
+        <div>
+          <p class="footer-identity__domain">gsa-share-it.github.io</p>
+          <p>An official website of the <a href="https://www.gsa.gov/">U.S. General Services Administration</a></p>
+        </div>
+      </section>
+      <section class="footer-usagov" aria-label="U.S. government information and services">
+        <p>Looking for U.S. government information and services? <a href="https://www.usa.gov/">Visit USA.gov</a></p>
+      </section>
     </div>
   </div>
 </footer>
-
-{% include "usa_identifier.html" %}
