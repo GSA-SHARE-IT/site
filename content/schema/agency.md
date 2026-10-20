@@ -85,5 +85,3 @@ To create an agency-index.json:
 </table>
 
 View the agency-index.json schema here: [https://github.com/DSACMS/gov-codejson/tree/main/schemas/agency-index/schema-2.0.0.json](https://github.com/DSACMS/gov-codejson/tree/main/schemas/agency-index/schema-2.0.0.json)
-
-More examples of agency index files can be found here: [https://github.com/DSACMS/code-gov/tree/main/agency-indexes](https://github.com/DSACMS/code-gov/tree/main/agency-indexes)

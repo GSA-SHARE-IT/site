@@ -422,7 +422,7 @@ function initMotion() {
     '.pillar', '.fine-print > div', '.source-links',
     '.journey .section-head .eyebrow', '.journey .section-head .lede', '.tabs', '.panels',
     '.tools .section-head .eyebrow', '.tools .section-head .lede', '.tool',
-    '.docs-intro .eyebrow', '.docs-intro .lede', '.inventory', '.doc-list li',
+    '.docs-intro .eyebrow', '.docs-intro .lede', '.doc-list li',
     '.cta-card', '.cta-actions',
   ];
   const belowFold = (el) => el.getBoundingClientRect().top > window.innerHeight;

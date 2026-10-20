@@ -944,42 +944,6 @@ Layout and section styles for index.html. Decorative motion
   gap: 20px;
 }
 
-.inventory,
-.inventory:visited {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
-  padding: 32px;
-  border-radius: var(--r-lg);
-  background: var(--navy);
-  color: #fff;
-  text-decoration: none;
-
-  .badge {
-    align-self: flex-start;
-    background: var(--bright);
-    color: var(--navy);
-  }
-
-  strong {
-    font: 600 1.75rem/1.2 var(--serif);
-  }
-
-  span:last-child {
-    font-size: 0.9375rem;
-    line-height: 1.5;
-    color: var(--on-dark);
-  }
-}
-
-.inventory:hover {
-  background: var(--deep);
-  color: #fff;
-
-  strong { text-decoration: underline; }
-}
-
 .doc-list {
   border-top: 1px solid var(--line);
 
@@ -1095,14 +1059,12 @@ Layout and section styles for index.html. Decorative motion
 /* ---------- Hover feedback (pointer devices, motion allowed) ---------- */
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .tool,
-  .pillar,
-  .inventory {
+  .pillar {
     transition: transform .6s var(--ease-out), box-shadow .6s var(--ease-out), background-color .3s ease;
   }
 
   .tool:hover,
-  .pillar:hover,
-  .inventory:hover {
+  .pillar:hover {
     transform: translateY(-6px);
     box-shadow: 0 34px 60px -34px rgba(28, 48, 74, .45);
   }
@@ -1121,7 +1083,6 @@ Layout and section styles for index.html. Decorative motion
   .pillar,
   .panel,
   .tool,
-  .inventory,
   .code-card,
   .cta-card,
   .check,
