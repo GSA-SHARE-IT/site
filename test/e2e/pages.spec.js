@@ -48,15 +48,36 @@ test.describe('mobile', () => {
   PAGES.forEach((path) => {
     test(`${path} has no horizontal page scroll`, async ({ page }) => {
       await page.goto(path);
-      // Fonts load after `load` (font-display: swap). Measuring earlier tests
-      // the machine's fallback fonts, which differ between macOS and CI.
+      // Fonts load after `load` (font-display: swap); measure the real ones
       await page.evaluate(async () => {
         await document.fonts.ready;
       });
-      const overflow = await page.evaluate(
-        () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-      );
-      expect(overflow).toBeLessThanOrEqual(0);
+      const { overflow, culprits } = await page.evaluate(() => {
+        const root = document.documentElement;
+        const width = root.clientWidth;
+        // Name the outermost elements past the viewport edge, skipping
+        // anything inside its own scroll container (e.g. code blocks)
+        const clipped = (el) => {
+          for (let a = el.parentElement; a && a !== document.body; a = a.parentElement) {
+            if (getComputedStyle(a).overflowX !== 'visible') return true;
+          }
+          return false;
+        };
+        const past = [...document.body.querySelectorAll('*')].filter(
+          (el) => el.getBoundingClientRect().right > width && !clipped(el),
+        );
+        return {
+          overflow: root.scrollWidth - width,
+          culprits: past
+            .filter((el) => !past.includes(el.parentElement))
+            .map((el) => {
+              const { right } = el.getBoundingClientRect();
+              const text = el.textContent.trim().slice(0, 60);
+              return `<${el.tagName.toLowerCase()} class="${el.className}"> right=${right} "${text}"`;
+            }),
+        };
+      });
+      expect(overflow, `Overflowing elements:\n${culprits.join('\n')}`).toBeLessThanOrEqual(0);
     });
   });
 
