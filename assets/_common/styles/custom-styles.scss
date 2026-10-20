@@ -237,3 +237,8 @@ h2.heading-md {
     vertical-align: middle;
   }
 }
+
+/* Content width for page layouts (previously set in _homepage.scss) */
+.grid-container {
+  max-width: 80rem;
+}
