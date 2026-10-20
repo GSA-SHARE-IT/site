@@ -68,6 +68,9 @@
   ## Header width
   -------------------------------------------------*/ 
   $theme-header-logo-text-width: 70%,
+  // Seven nav items plus the CTA need the wider breakpoint before the
+  // header switches from the mobile drawer to the inline nav.
+  $theme-header-min-width: 'desktop-lg',
 
   /*---------------------------------------------------------
   # Utility Settings

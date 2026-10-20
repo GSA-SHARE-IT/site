@@ -1,0 +1,140 @@
+/*---------------------------------------------------------
+Base and shared primitives
+Used by the site chrome, the homepage, and subpages.
+----------------------------------------------------------*/
+
+html {
+  scroll-padding-top: calc(var(--header-h) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* Focus: one visible ring everywhere; dark surfaces switch it to cyan */
+:focus-visible,
+.usa-focus {
+  outline: 3px solid var(--focus) !important;
+  outline-offset: 3px;
+}
+
+.on-dark {
+  --focus: var(--bright);
+}
+
+/* Layout */
+.wrap {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Type */
+.display {
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.06;
+  color: var(--heading);
+  text-wrap: balance;
+}
+
+.h2 {
+  font-size: clamp(2.25rem, 4.4vw, 3.625rem);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--medium);
+}
+
+.lede {
+  font-size: clamp(1.0625rem, 1.6vw, 1.3125rem);
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 28px;
+  border-radius: var(--pill);
+  border: 2px solid transparent;
+  font: 600 1.0625rem/1.2 var(--sans);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover { text-decoration: none; }
+}
+
+.btn-cta,
+.btn-cta:visited {
+  background: var(--cta);
+  color: #fff;
+}
+.btn-cta:hover {
+  background: var(--cta-hover);
+  color: #fff;
+}
+
+.btn-outline,
+.btn-outline:visited {
+  border-color: var(--heading);
+  color: var(--heading);
+}
+.btn-outline:hover {
+  background: var(--heading);
+  color: var(--bg);
+}
+
+.btn-light,
+.btn-light:visited {
+  background: #fff;
+  color: var(--navy);
+}
+.btn-light:hover {
+  background: var(--tint);
+  color: var(--navy);
+}
+
+.btn-ghost-light,
+.btn-ghost-light:visited {
+  border-color: #fff;
+  color: #fff;
+}
+.btn-ghost-light:hover {
+  background: #fff;
+  color: var(--deep);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn {
+    transition: background-color .2s ease, color .2s ease, transform .2s var(--ease-out);
+  }
+  .btn:active {
+    transform: scale(.96);
+  }
+}
+
+/* Windows High Contrast: keep button and card edges visible */
+@media (forced-colors: active) {
+  .btn { border-color: ButtonText; }
+}

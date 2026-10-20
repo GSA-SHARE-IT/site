@@ -11,6 +11,9 @@ USWDS Source
 /*---------------------------------------------------------
 Custom styling
 ----------------------------------------------------------*/
+@forward "fonts";
+@forward "tokens";
+@forward "base";
 @forward "custom-styles.scss";
 @forward "category";
 @forward "colors";

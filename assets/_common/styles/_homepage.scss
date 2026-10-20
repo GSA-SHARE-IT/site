@@ -50,23 +50,6 @@ styling for landing page only
   border: 0;
 }
 
-/* Focus styles for better accessibility */
-:focus:not(:focus-visible) {
-  outline: none !important;
-}
-
-:focus-visible {
-  outline: 3px solid $focus-color !important;
-  outline-offset: 3px;
-}
-
-a:focus-visible,
-button:focus-visible,
-[tabindex="0"]:focus-visible {
-  outline: 3px solid $cms-bright-blue;
-  outline-offset: 3px;
-}
-
 /* Hero Section */
 .intro-header .grid-container {
   display: flex;
@@ -102,37 +85,6 @@ button:focus-visible,
     font-size: 1.34rem;
     margin-bottom: 40px;
   }
-}
-
-/* Buttons */
-.btn {
-  display: inline-block;
-  background-color: $cms-red-orange;
-  color: $white;
-  padding: 12px 24px;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.3s;
-}
-
-.btn:visited {
-  color: $white;
-}
-
-.btn:hover {
-  background-color: $cms-dark-red;
-  color: $white;
-}
-
-.btn-outline {
-  background-color: transparent;
-  border: 2px solid $white;
-  margin-left: 15px;
-}
-
-.btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Section Styles */
