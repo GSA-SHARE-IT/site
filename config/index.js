@@ -1,5 +1,5 @@
 const path = require('path');
-const Image = require('@11ty/eleventy-img');
+const { default: Image } = require('@11ty/eleventy-img');
 
 async function imageData(src) {
   const ext = path.extname(src);
