@@ -48,6 +48,11 @@ An up-to-date list of core team members can be found in [COMMUNITY.md](COMMUNITY
 
 Drag and drop the `index.html` file into a browser to see the website. Once you make changes, refresh the page and the changes wil be reflected.
 
+## Testing
+
+- `npm test` runs the unit tests in `test/unit` (Mocha + jsdom).
+- `npm run test:e2e` builds the site and runs the Playwright tests in `test/e2e` against it on port 8099. Run `npx playwright install chromium` once first. Stop `npm run dev` before running them, since both write to `_site`. If the browser download is blocked, run `PLAYWRIGHT_CHANNEL=chrome npm run test:e2e` to use your installed Chrome.
+
 ## Policies
 
 ### Open Source Policy
