@@ -128,3 +128,6 @@ _data/assetPaths.json
 # utils
 utils/test_redirects_*_output.csv
 _data/assetPaths.json
+
+# Editor swap files
+*.swp

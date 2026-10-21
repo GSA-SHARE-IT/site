@@ -7,11 +7,13 @@ The home page uses wide.html layout, since it extends full width of page
 {% include "meta.html" %}
 
 <body class="display-flex flex-column minh-viewport">
+  <a class="usa-skipnav" href="#main-content">Skip to main content</a>
   {% include "header.html" %}
   {% if tags %}
   {% assign primary_navigation = navigation[tags] %}
   {% else %}
-  {% assign primary_navigation = site.primary_navigation %}
+  {% comment %} Pages without tags (e.g. 404) get the main site navigation {% endcomment %}
+  {% assign primary_navigation = navigation.shareit %}
   {% endif %}
 
   {% include "menu.html" %}

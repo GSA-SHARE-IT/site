@@ -11,11 +11,16 @@ USWDS Source
 /*---------------------------------------------------------
 Custom styling
 ----------------------------------------------------------*/
+@forward "fonts";
+@forward "tokens";
+@forward "base";
+@forward "chrome";
 @forward "custom-styles.scss";
 @forward "category";
 @forward "colors";
 @forward "homepage";
+@forward "homepage-motion";
+@forward "page";
 
 @forward "overrides/code_highlight.scss";
-@forward "overrides/extended-header.scss";
 

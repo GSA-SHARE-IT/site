@@ -1,4 +1,7 @@
-<div class="usa-logo" id="extended-logo">
-  {% assign root =  "/" %}
-  <a class="display-flex flex-align-center" href="{{ root | url }}" title="Home" aria-label="Home">{% image_with_class "assets/_common/_img/gsa-logo.png" "maxw-5 margin-right-105" "18f" %}<em class="usa-logo__text">{{site.title}}</em></a>
+{% assign root = "/" %}
+<div class="usa-logo site-brand" id="basic-logo">
+  <a class="site-brand__link" href="{{ root | url }}">
+    {% image_with_class "assets/_common/_img/gsa-logo.png" "site-brand__logo" "GSA" %}
+    <span class="site-brand__name">{{ site.title }}</span>
+  </a>
 </div>
