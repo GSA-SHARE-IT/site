@@ -122,6 +122,12 @@ Title band, sidenav, and prose styles that match the homepage.
     font-size: .9em;
   }
 
+  // Prism only styles language-tagged blocks; keep untagged ones from
+  // widening the page on narrow screens
+  pre {
+    overflow-x: auto;
+  }
+
   .btn {
     margin: 8px 12px 0 0;
   }

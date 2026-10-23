@@ -131,3 +131,7 @@ _data/assetPaths.json
 
 # Editor swap files
 *.swp
+
+# Playwright
+test-results/
+playwright-report/

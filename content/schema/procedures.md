@@ -63,7 +63,7 @@ _This method is most effective when GitHub Actions are unavailable, allowing coo
 
 For repositories created using repo-scaffolder, the tool can assist with adding code.json to the repository. Navigate to your project's `.github` directory and run the following cookiecutter command. You will be asked questions about the project in order to collect and store this metadata in code.json.
 
-```
+```bash
 cookiecutter . --directory=codejson
 ```
 

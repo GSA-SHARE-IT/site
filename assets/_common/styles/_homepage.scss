@@ -183,7 +183,8 @@ Layout and section styles for index.html. Decorative motion
   pre {
     margin: 0;
     font: 400 clamp(0.8125rem, 1.15vw, 1rem)/1.75 var(--mono);
-    overflow-x: auto;
+    overflow-x: anywhere;
+    white-space: pre-wrap;
   }
 
   .k { color: var(--bright); }
