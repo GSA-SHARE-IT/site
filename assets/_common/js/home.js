@@ -287,21 +287,45 @@ function initChecklists() {
     const progress = panel.querySelector('.progress');
     const count = panel.querySelector('[data-count]');
     const bar = panel.querySelector('[role="progressbar"]');
+    const doneMsg = panel.querySelector('[data-done]');
     if (!boxes.length || !progress || !count || !bar) return;
 
+    // Each box is one task, except an either/or group (.checks--choice), which
+    // counts as a single task done by checking any one of its boxes.
+    const tasks = [];
+    const groups = new Map();
+    boxes.forEach((box) => {
+      const group = box.closest('.checks--choice');
+      if (!group) {
+        tasks.push([box]);
+      } else if (groups.has(group)) {
+        groups.get(group).push(box);
+      } else {
+        const members = [box];
+        groups.set(group, members);
+        tasks.push(members);
+      }
+    });
+
     function update() {
-      const done = Array.from(boxes).filter((b) => b.checked).length;
-      const pct = Math.round((done / boxes.length) * 100);
-      count.textContent = `${done} of ${boxes.length}`;
+      const done = tasks.filter((members) => members.some((b) => b.checked)).length;
+      const pct = Math.round((done / tasks.length) * 100);
+      count.textContent = `${done} of ${tasks.length}`;
       bar.setAttribute('aria-valuenow', String(pct));
-      bar.setAttribute('aria-valuetext', `${done} of ${boxes.length} complete`);
+      bar.setAttribute('aria-valuetext', `${done} of ${tasks.length} complete`);
       bar.firstElementChild.style.width = `${pct}%`;
+      if (doneMsg) doneMsg.hidden = done < tasks.length;
     }
 
     boxes.forEach((box) => {
       // Some browsers restore checkbox state on reload; always start unchecked.
       box.checked = false;
       box.addEventListener('change', () => {
+        // Only one option in an either/or group can be checked at a time
+        const group = box.closest('.checks--choice');
+        if (group && box.checked) {
+          groups.get(group).forEach((other) => { if (other !== box) other.checked = false; });
+        }
         update();
         if (motion() && box.checked) {
           animate(box.closest('.check'), [{ transform: 'scale(1)' }, { transform: 'scale(.97)' }, { transform: 'scale(1)' }], { duration: 380, easing: EASE });

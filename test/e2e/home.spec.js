@@ -52,9 +52,12 @@ test.describe('homepage', () => {
     await page.goto('/');
     const panel = page.locator('#panel-teams');
     const count = panel.locator('[data-count]');
-    const total = await panel.getByRole('checkbox').count();
+    // An either/or group counts as one task, so there are fewer tasks than boxes
+    const choices = await panel.locator('.checks--choice').count();
+    const choiceBoxes = await panel.locator('.checks--choice').getByRole('checkbox').count();
+    const total = (await panel.getByRole('checkbox').count()) - choiceBoxes + choices;
     await expect(count).toHaveText(`0 of ${total}`);
-    await panel.getByLabel('Is the project owned by the agency?').check();
+    await panel.getByLabel('Confirm whether the project is owned by the agency').check();
     await expect(count).toHaveText(`1 of ${total}`);
     await expect(panel.getByRole('progressbar')).toHaveAttribute('aria-valuetext', `1 of ${total} complete`);
   });

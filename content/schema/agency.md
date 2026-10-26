@@ -81,7 +81,7 @@ To create an agency-index.json:
       <td>The version of the metadata schema in use. Implements semantic versioning 2.0.0 rules as defined at http://semver.org.</td>
       <td></td>
     </tr>
-  <tbody>
+  </tbody>
 </table>
 
 View the agency-index.json schema here: [https://github.com/DSACMS/gov-codejson/tree/main/schemas/agency-index/schema-2.0.0.json](https://github.com/DSACMS/gov-codejson/tree/main/schemas/agency-index/schema-2.0.0.json)
