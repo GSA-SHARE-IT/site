@@ -44,6 +44,28 @@ describe('scrollableTables', () => {
     const out = scrollableTables(`<h2>Q&A "terms" &amp; more</h2>${TABLE}`, 'index.html');
     expect(out).to.include('aria-label="Q&amp;A &quot;terms&quot; &amp; more table"');
   });
+
+  it('labels each body cell with its column header', () => {
+    const table = '<table><thead><tr><th>Field</th><th>Type <em>(JSON)</em></th></tr></thead>'
+      + '<tbody><tr><td>name</td><td>str</td></tr><tr><td>tags</td><td>arr</td></tr></tbody></table>';
+    const out = scrollableTables(table, 'index.html');
+    expect(out).to.include('<tr><td data-label="Field">name</td><td data-label="Type (JSON)" data-inline>str</td></tr>');
+    expect(out).to.include('<td data-label="Field">tags</td>');
+  });
+
+  it('marks a column inline only when every value in it is short', () => {
+    const table = '<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>'
+      + '<tr><td>a</td><td>str</td><td>short</td></tr>'
+      + '<tr><td>b</td><td>arr</td><td>A much longer description of the field</td></tr></tbody></table>';
+    const out = scrollableTables(table, 'index.html');
+    expect(out).to.include('<td data-label="Type" data-inline>arr</td>');
+    expect(out).to.include('<td data-label="Description">short</td>');
+    expect(out).to.include('<td data-label="Field">a</td>');
+  });
+
+  it('leaves cells unlabeled when the table has no header row', () => {
+    expect(scrollableTables(TABLE, 'index.html')).to.not.include('data-label');
+  });
 });
 
 describe('scrollableCode', () => {

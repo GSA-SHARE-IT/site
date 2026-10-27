@@ -159,10 +159,30 @@ describe('home.js', () => {
       expect(bar.getAttribute('aria-valuenow')).to.equal('100');
     });
 
+    it('shows the confirmation only once every task is done', () => {
+      const msg = panel.querySelector('[data-done]');
+      expect(msg.hidden).to.equal(true);
+      boxes.forEach(check);
+      expect(msg.hidden).to.equal(false);
+      boxes[0].checked = false;
+      boxes[0].dispatchEvent(new dom.window.Event('change'));
+      expect(msg.hidden).to.equal(true);
+    });
+
     it('tracks each panel separately', () => {
       check(boxes[0]);
       const other = dom.window.document.getElementById('panel-agencies');
       expect(other.querySelector('[data-count]').textContent).to.equal('0 of 2');
+    });
+
+    it('counts an either/or group as one task and keeps only one option checked', () => {
+      const other = dom.window.document.getElementById('panel-agencies');
+      const [, e, f] = other.querySelectorAll('input[type="checkbox"]');
+      check(e);
+      expect(other.querySelector('[data-count]').textContent).to.equal('1 of 2');
+      check(f);
+      expect(e.checked).to.equal(false);
+      expect(other.querySelector('[data-count]').textContent).to.equal('1 of 2');
     });
   });
 
