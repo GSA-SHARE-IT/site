@@ -1,39 +1,41 @@
+# Procedures
+
 The CMS Open Source Program Office developed various tools that can automate detecting, adding, and updating metadata to repositories.
+
+> **Learn more about our SHARE IT Act tools**: https://gsa-share-it.github.io/site/
 
 **Procedures for Project Teams**:
 
-[Creating a code.json file in your repository](#creating-a-code-json-file-in-your-repository)
+[Creating a code.json file in your repository](#creating-a-codejson-file-in-your-repository)
 
-- [code.json generator form site](#using-form-site)
-- [automated-codejson-generator GitHub Action](#using-automated-codejson-generator)
+- [codejson-form](#using-codejson-form)
+- [codejson-action](#using-codejson-action)
 - [repo-scaffolder](#using-repo-scaffolder)
 
 **Procedures for Agencies**:
 
-[Generate an agency-index.json file for submission](#generate-an-agency-index-json-file-for-agencies)
+[Generate an agency-index.json file for submission](#generate-an-agency-indexjson-file-for-agencies)
 
-- [codejson-index-generator](#using-codejson-index-generator)
+- [codejson-index](#using-codejson-index)
 
 [Tools created by other teams and agencies](#tools-created-by-other-teams-and-agencies)
 
-- [CMS CMCS](#cms-cmcs-code-json-aggregator)
+- [CMS CMCS](#cms-cmcs-codejson-aggregator)
 - [CDC](#cdc-share-it-act-repository-scanner-tool)
 
 ## Creating a code.json file in your repository
 
-### Using form site
+### Using codejson-form
 
 _This method works best for all repositories on all platforms._
 
-Users can fill out a web form that creates a code.json file to be uploaded to a project's source code repository: [https://dsacms.github.io/codejson-generator](https://dsacms.github.io/codejson-generator).
+Users can fill out a web form that creates a code.json file to be uploaded to a project's source code repository: https://gsa-share-it.github.io/codejson-form.
 
-The form site provides a `Enhance with AI` button to populate the rest of the code.json fields using a local LLM downloaded in your browser. It recommends suggested values for each field based on scanning the contents of the repository. The user can select whether to keep or correct the draft.
-
-### Using automated-codejson-generator
+### Using codejson-action
 
 _This method works best for repositories hosted on GitHub with GitHub Actions enabled._
 
-The [automated-codejson-generator](https://github.com/DSACMS/automated-codejson-generator) is a GitHub Action that automatically generates and maintains code.json files for federal open source repositories. It ensures schema consistency and automates metadata calculations, including:
+The [codejson-action](https://github.com/GSA-SHARE-IT/codejson-action) is a GitHub Action that automatically generates and maintains code.json files for federal open source repositories. It ensures schema consistency and automates metadata calculations, including:
 
 - Labor hours
 - Programming languages used
@@ -48,7 +50,7 @@ _This method is most effective when GitHub Actions are unavailable, allowing coo
 
 For repositories created using repo-scaffolder, the tool can assist with adding code.json to the repository. Navigate to your project's `.github` directory and run the following cookiecutter command. You will be asked questions about the project in order to collect and store this metadata in code.json.
 
-```bash
+```
 cookiecutter . --directory=codejson
 ```
 
@@ -56,7 +58,7 @@ For more information on repo-scaffolder, check out the [documentation](https://g
 
 #### Setting up the GitHub Action
 
-To use the automated-codejson-generator in your repository, create a workflow file with the following configuration:
+To use the codejson-action in your repository, create a workflow file with the following configuration:
 
 ```yaml
 name: Update Code.json
@@ -79,12 +81,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.22'
+          go-version: "1.22"
 
       - name: Install SCC
         run: go install github.com/boyter/scc/v3@latest
@@ -99,11 +101,11 @@ This action will create a pull request to add or update a compliant code.json fi
 
 ## Generate an agency-index.json file for agencies
 
-### Using codejson-index-generator
+### Using codejson-index
 
-The [codejson-index-generator](https://github.com/DSACMS/codejson-index-generator) is a Python-based tool that helps federal agencies compile and maintain their code.json files for code.gov compliance. It scans specified GitHub organizations, finds repositories containing code.json files, and combines them into a single indexed file.
+The [codejson-index](https://github.com/GSA-SHARE-IT/codejson-index) is a Python-based tool that helps federal agencies compile and maintain their code.json files for code.gov compliance. It scans specified GitHub organizations, finds repositories containing code.json files, and combines them into a single indexed file.
 
-The tool can be run using the [index-generator-website](https://dsacms.github.io/index-generator-website/).
+The tool can be run using the [codejson-index website](https://gsa-share-it.github.io/codejson-index/).
 
 Alternatively, follow the instructions below to run locally.
 
@@ -117,8 +119,8 @@ Alternatively, follow the instructions below to run locally.
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/DSACMS/codejson-index-generator.git
-cd codejson-index-generator
+git clone https://github.com/GSA-SHARE-IT/codejson-index.git
+cd codejson-index
 ```
 
 2. Install required dependencies:
@@ -164,11 +166,11 @@ Below are tools other teams and agencies developed to create a consolidated soft
 ### CMS CMCS code.json aggregator
 
 mac-fc-aggregate-codejson aggregates code.json files from all private and internal repositories in a GitHub organization.
-[https://github.com/Enterprise-CMCS/mac-fc-aggregate-code-json](https://github.com/Enterprise-CMCS/mac-fc-aggregate-code-json)
+https://github.com/Enterprise-CMCS/mac-fc-aggregate-code-json
 
 ## CDC SHARE IT Act Repository Scanner Tool
 
 The CDC SHARE IT Act Repository Scanner Tool gathers and consolidates repository metadata from various code environments by generating code.json files in all repositories, having project teams review and correct information for accuracy, then creating an index file containing all aggregated code.json metadata.
 
-- [https://github.com/CDCgov/ShareIT-Act](https://github.com/CDCgov/ShareIT-Act)
-- [https://github.com/OCIO-ricky/ShareITAct_RepoScanning](https://github.com/OCIO-ricky/ShareITAct_RepoScanning)
+- https://github.com/CDCgov/ShareIT-Act
+- https://github.com/OCIO-ricky/ShareITAct_RepoScanning
