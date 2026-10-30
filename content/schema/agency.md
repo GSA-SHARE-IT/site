@@ -1,23 +1,9 @@
----
-title: agency-index.json
-description: Tools and resources to create an agency index / software inventory
-permalink: /schema/agency-index/
-layout: layouts/page
-tags: shareit
-eleventyNavigation:
-  parent: shareit-schema
-  key: shareit-schema-agencyindex
-  order: 2
-  title: agency-index.json
-sidenav: true
-sticky_sidenav: true
----
-
 The SHARE IT Act requires federal agencies to publish metadata for their software projects. This metadata is compiled into an **agency-index.json** file, which serves as a centralized inventory of the agency's software portfolio.
 
 ## Generate an agency-index.json file for submission
 
 To create an agency-index.json:
+
 1. Identify GitHub organizations and other platforms where source code is hosted
 2. Generate the agency-index.json using the tools below. Learn more about usage in [procedures.md](https://github.com/DSACMS/gov-codejson/blob/main/docs/procedures.md#generate-an-agency-indexjson-file-for-agencies)
    - [index-generator-website](https://dsacms.github.io/index-generator-website/)

@@ -1,18 +1,3 @@
----
-title: code.json
-description: Metadata standard for federal software projects
-permalink: /schema/
-layout: layouts/page
-tags: shareit
-eleventyNavigation:
-  parent: shareit-schema
-  key: shareit-schema-main
-  order: 1
-  title: code.json
-sidenav: true
-sticky_sidenav: true
----
-
 `code.json` is a metadata standard created to collect information on the agency's software projects. This is composed of:
 
 - federal code.json standard, created as part of [M-16-21](https://obamawhitehouse.archives.gov/sites/default/files/omb/memoranda/2016/m_16_21.pdf)

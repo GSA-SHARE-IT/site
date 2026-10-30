@@ -1,18 +1,3 @@
----
-title: Exemptions
-description: List of exemptions for the SHARE IT Act and M-16-21
-permalink: /schema/exemptions/
-layout: layouts/page
-tags: shareit
-eleventyNavigation:
-  parent: shareit-schema
-  key: shareit-schema-exemptions
-  order: 5
-  title: Exemptions
-sidenav: true
-sticky_sidenav: true
----
-
 ## [SHARE IT Act](https://www.congress.gov/bill/118th-congress/house-bill/9566/text/ih) Exemptions
 
 ### Sign off on risk acceptance of open-sourcing the software product

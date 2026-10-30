@@ -1,18 +1,3 @@
----
-title: Frequently Asked Questions (FAQs)
-description: Frequently Asked Questions
-permalink: /schema/faq/
-layout: layouts/page
-tags: shareit
-eleventyNavigation:
-  parent: shareit-schema
-  key: shareit-schema-faq
-  order: 6
-  title: FAQs
-sidenav: true
-sticky_sidenav: true
----
-
 ## Policies
 
 ### What is the Federal Source Code Policy / M-16-21?
