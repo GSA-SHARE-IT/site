@@ -1,4 +1,5 @@
 require('@uswds/uswds');
+require('./home');
 
 /* eslint no-plusplus: 0 */
 /**

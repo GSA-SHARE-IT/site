@@ -95,7 +95,7 @@ This GitHub Action populates 21 code.json fields using the GitHub API:
 
 In step 2 of the form, click the `Enhance with AI` button to use a LLM to populate the rest of the code.json fields based on scanning the contents of the repository. Be sure to review each value for correctness and accuracy before generating your code.json file.
 
-Visit the [Procedures page](https://dsacms.github.io/share-it-act-lp/schema/procedures/#using-form-site) and [Metadata page](https://dsacms.github.io/share-it-act-lp/schema) for more information on the automation options above.
+Visit the [Procedures page](https://gsa-share-it.github.io/site/schema/procedures/#using-form-site) and [Metadata page](https://gsa-share-it.github.io/site/schema) for more information on the automation options above.
 
 ### Which metadata fields require human judgment, and who should be responsible for completing them?
 

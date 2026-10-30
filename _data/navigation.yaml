@@ -17,9 +17,6 @@ shareit:
   - name: Index Generator
     url: https://gsa-share-it.github.io/codejson-index/
 
-  - name: Inventory
-    url: https://dsacms.github.io/code-gov/
-
   - name: Savings
     url: https://dsacms.github.io/share-it-savings/
 

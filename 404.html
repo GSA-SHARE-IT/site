@@ -1,18 +1,14 @@
 ---
 layout: layouts/page
 permalink: /404.html
+title: "404: Page not found"
 ---
 
-<h1>404: Page not found</h1>
-  <p>
-    If you typed the URL directly, check your spelling and capitalization. Our URLs look like this: <strong>https://gsa-share-it.github.io/site/.</strong>
-  </p>
-  <p>
-    Visit our homepage for helpful tools and resources, or contact us and we’ll point you in the right direction.
-  </p>
-  <a href="https://gsa-share-it.github.io/site/" class="usa-button"> 
-    Visit homepage
-  </a>
-  <a href="https://gsa-share-it.github.io/site/about/" class="usa-button usa-button--outline"> 
-    Contact us 
-  </a>
+<p>
+  If you typed the URL directly, check your spelling and capitalization. Our URLs look like this: <strong>https://gsa-share-it.github.io/site/.</strong>
+</p>
+<p>
+  Visit our homepage for helpful tools and resources, or contact us and we’ll point you in the right direction.
+</p>
+<a href="{{ '/' | url }}" class="btn btn-cta">Visit homepage</a>
+<a href="{{ '/about/' | url }}" class="btn btn-outline">Contact us</a>

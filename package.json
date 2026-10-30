@@ -20,7 +20,8 @@
     "pa11y-ci:sitemap": "sleep 10; pa11y-ci --sitemap http://localhost:8080/sitemap.xml --sitemap-exclude \"/*.pdf\"  --sitemap-exclude \"/admin\" --sitemap-find \"^/\" --sitemap-replace \"http://localhost:8080/\"",
     "serve": "npx @11ty/eleventy --serve",
     "start": "npx @11ty/eleventy --serve",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha 'test/unit/**/*.test.js'",
+    "test:e2e": "playwright test",
     "test:links": "npx check-html-links _site --ignore-link-pattern '**/TODO/' 2>&1 | tee /dev/stderr | grep ✅",
     "test:links-internal": "npx check-html-links _site --ignore-link-pattern '**/TODO/'",
     "test:html-validation": "html-validate _site/**/*.html",
@@ -33,6 +34,9 @@
     "@11ty/eleventy-navigation": "^0.3.5",
     "@11ty/eleventy-plugin-rss": "^1.2.0",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+    "@fontsource-variable/source-serif-4": "^5.1.0",
+    "@fontsource/jetbrains-mono": "^5.1.0",
+    "@playwright/test": "^1.61.1",
     "chai": "^4.5.0",
     "check-html-links": "^0.2.4",
     "chokidar-cli": "^3.0.0",
@@ -56,7 +60,7 @@
     "start-server-and-test": "^2.0.8"
   },
   "dependencies": {
-    "@11ty/eleventy-img": "^3.1.8",
+    "@11ty/eleventy-img": "^7.0.0",
     "@uswds/uswds": "3.9.0",
     "autoprefixer": "^10.4.20",
     "esbuild": "^0.24.0",
@@ -64,6 +68,9 @@
     "luxon": "^2.3.1",
     "markdown-it-footnote": "^3.0.3",
     "markdown-it-task-lists": "^2.1.1"
+  },
+  "engines": {
+    "node": ">=22"
   },
   "mocha": {
     "timeout": 15000

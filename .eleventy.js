@@ -9,6 +9,7 @@ const markdownItAnchor = require('markdown-it-anchor');
 const markdownItFootnote = require('markdown-it-footnote');
 const { readableDate, htmlDateString, head, min, filterTagList } = require("./config/filters");
 const { headingLinks } = require("./config/headingLinks");
+const { scrollableTables, scrollableCode } = require("./config/transforms");
 const { contrastRatio, humanReadableContrastRatio } = require("./config/wcagColorContrast");
 const privateLinks = require('./config/privateLinksList.js');
 const svgSprite = require("eleventy-plugin-svg-sprite");
@@ -266,6 +267,11 @@ module.exports = function (config) {
     }
     return inlineHTMLDefaultRender(tokens, idx, options, env, self);
   }
+
+  // Wrap tables and code blocks in keyboard-scrollable regions (WCAG 1.4.10).
+  // See config/transforms.js
+  config.addTransform('scrollable-tables', scrollableTables);
+  config.addTransform('scrollable-code', scrollableCode);
 
   // Override Browsersync defaults (used only with --serve)
   config.setBrowserSyncConfig({

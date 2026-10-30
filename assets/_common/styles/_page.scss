@@ -1,0 +1,250 @@
+/*---------------------------------------------------------
+Content pages (layouts/page.html): About, Schema, FAQ, Glossary, 404
+Title band, sidenav, and prose styles that match the homepage.
+----------------------------------------------------------*/
+
+.page-main {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Title band */
+.page-hero {
+  padding-block: clamp(36px, 5vw, 64px);
+  background: var(--tint);
+
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .page-title {
+    margin: 0;
+    font-size: clamp(2.25rem, 4.4vw, 3.5rem);
+  }
+
+  .lede {
+    max-width: 62ch;
+    margin: 0;
+  }
+}
+
+/* Content area lines up with the header */
+.page-body {
+  padding-block: clamp(32px, 4vw, 56px) clamp(48px, 6vw, 96px);
+
+  .grid-container {
+    max-width: 1200px;
+    padding-inline: var(--gutter);
+  }
+}
+
+/* Sidenav */
+.site-sidenav {
+  &.is-sticky {
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+  }
+
+  .usa-sidenav {
+    border-bottom: 0;
+  }
+
+  .usa-sidenav__item {
+    border-top: 0;
+  }
+
+  .usa-sidenav a:not(.usa-button) {
+    padding: 10px 14px;
+    border-radius: var(--r-sm);
+    color: var(--muted);
+    text-decoration: none;
+
+    &:hover {
+      background: var(--tint);
+      color: var(--heading);
+      text-decoration: underline;
+    }
+  }
+
+  .usa-sidenav a:not(.usa-button).usa-current {
+    background: var(--tint);
+    color: var(--heading);
+    font-weight: 700;
+
+    &::after {
+      left: 0;
+      border-radius: var(--pill);
+      background-color: var(--primary);
+    }
+  }
+}
+
+/* Prose */
+.page-content {
+  min-width: 0;
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  h2,
+  h3 {
+    font-family: var(--serif);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--heading);
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+    line-height: 1.15;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+
+  a:not(.btn):not(.heading-permalink) {
+    color: var(--link);
+
+    &:visited { color: #54278f; }
+    &:hover { color: var(--link-hover); }
+  }
+
+  :not(pre) > code {
+    padding: .1em .35em;
+    border-radius: 6px;
+    background: #f0f0f0;
+    font-family: var(--mono);
+    font-size: .9em;
+  }
+
+  // Prism only styles language-tagged blocks; keep untagged ones from
+  // widening the page on narrow screens
+  pre {
+    overflow-x: auto;
+  }
+
+  .btn {
+    margin: 8px 12px 0 0;
+  }
+}
+
+/* Tables: wrap to fit the column; when the column is too narrow for every
+   field, stack each row into a card (cells carry data-label from transforms.js).
+   Horizontal scroll stays as a last resort. */
+.table-scroll {
+  container-type: inline-size;
+  max-width: 100%;
+  margin-block: 24px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+
+  table {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    font-size: .9375rem;
+  }
+
+  th,
+  td {
+    padding: 12px 14px;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  // Long URLs and camelCase values may break so they don't force a scrollbar
+  td {
+    overflow-wrap: anywhere;
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  th {
+    background: var(--tint);
+    color: var(--heading);
+    font-weight: 700;
+  }
+
+  td:first-child {
+    color: var(--heading);
+    font-weight: 600;
+  }
+}
+
+// Stack each row into a card: the first cell is the title, the rest are
+// "Label  value" lines. Header text comes from data-label (transforms.js).
+@mixin stacked-table {
+  thead {
+    // Visually hidden, but kept for screen readers
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  tr {
+    display: block;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  tr:last-child { border-bottom: 0; }
+
+  // Label above value; cells mix text, links and <br>, so keep them block
+  td {
+    display: block;
+    padding: 0 0 10px;
+    border: 0;
+
+    &::before {
+      content: attr(data-label);
+      display: block;
+      color: var(--muted);
+      font-size: .8125rem;
+      font-weight: 600;
+    }
+
+    &:empty { display: none; }
+  }
+
+  // Short values (presence, type, ...) share one row
+  td[data-inline] {
+    display: inline-block;
+    margin-right: 28px;
+  }
+
+  // The first column names the row, so it reads as the card's title
+  td:first-child {
+    padding: 0 0 10px;
+    font-size: 1rem;
+
+    &::before { content: none; }
+  }
+}
+
+// Wide tables stack below a desktop column; every labeled table stacks on phones
+@container (max-width: 1000px) {
+  .table-scroll--wide table:has(td[data-label]) { @include stacked-table; }
+}
+
+@container (max-width: 480px) {
+  .table-scroll table:has(td[data-label]) { @include stacked-table; }
+}
+
+@media (forced-colors: active) {
+  .site-sidenav .usa-current {
+    outline: 2px solid Highlight;
+  }
+}

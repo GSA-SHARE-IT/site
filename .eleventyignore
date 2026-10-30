@@ -10,3 +10,6 @@ OSPO Guide Table of Contents .xlsx
 .github
 config
 docs
+test
+test-results
+playwright-report

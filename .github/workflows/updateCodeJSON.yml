@@ -5,6 +5,8 @@ on:
     types: [opened, synchronize]
     paths:
       - "code.json"
+  schedule:
+    - cron: '0 0 1 * *' 
 
 permissions:
   contents: write
@@ -16,13 +18,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           fetch-depth: 0
 
       - name: Update code.json
         id: generator
-        uses: DSACMS/automated-codejson-generator@main
+        uses: DSACMS/automated-codejson-generator@2c06165cfa3ad62b6805dc3cd14670caadbf0e64 # main as of 2026-10-20
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: "main"

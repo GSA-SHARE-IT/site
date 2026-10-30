@@ -1,0 +1,208 @@
+/*---------------------------------------------------------
+Base and shared primitives
+Used by the site chrome, the homepage, and subpages.
+----------------------------------------------------------*/
+
+html {
+  scroll-padding-top: calc(var(--header-h) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* Focus: one visible ring everywhere; dark surfaces switch it to cyan */
+:focus-visible,
+.usa-focus {
+  outline: 3px solid var(--focus) !important;
+  outline-offset: 3px;
+}
+
+.on-dark {
+  --focus: var(--bright);
+}
+
+/* Layout */
+.wrap {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Type */
+.display {
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.06;
+  color: var(--heading);
+  text-wrap: balance;
+}
+
+.h2 {
+  font-size: clamp(2.25rem, 4.4vw, 3.625rem);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--medium);
+}
+
+.lede {
+  font-size: clamp(1.0625rem, 1.6vw, 1.3125rem);
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 28px;
+  border-radius: var(--pill);
+  border: 2px solid transparent;
+  font: 600 1.0625rem/1.2 var(--sans);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover { text-decoration: none; }
+}
+
+.btn-cta,
+.btn-cta:visited {
+  background: var(--cta);
+  color: #fff;
+}
+.btn-cta:hover {
+  background: var(--cta-hover);
+  color: #fff;
+}
+
+.btn-outline,
+.btn-outline:visited {
+  border-color: var(--heading);
+  color: var(--heading);
+}
+.btn-outline:hover {
+  background: var(--heading);
+  color: var(--bg);
+}
+
+.btn-light,
+.btn-light:visited {
+  background: #fff;
+  color: var(--navy);
+}
+.btn-light:hover {
+  background: var(--tint);
+  color: var(--navy);
+}
+
+.btn-ghost-light,
+.btn-ghost-light:visited {
+  border-color: #fff;
+  color: #fff;
+}
+.btn-ghost-light:hover {
+  background: #fff;
+  color: var(--deep);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn {
+    transition: background-color .2s ease, color .2s ease, transform .2s var(--ease-out);
+  }
+  .btn:active {
+    transform: scale(.96);
+  }
+}
+
+/* Windows High Contrast: keep button and card edges visible */
+@media (forced-colors: active) {
+  .btn { border-color: ButtonText; }
+}
+
+/* Mouse and touch clicks don't need the ring; keyboard focus always gets it */
+:focus:not(:focus-visible) {
+  outline: none !important; // some USWDS component :focus rules are more specific
+}
+
+/* Tooltips (USWDS usa-tooltip, restyled): a compact navy card that wraps text */
+.usa-tooltip__body {
+  width: max-content;
+  max-width: min(18rem, calc(100vw - 32px));
+  padding: 12px 14px;
+  border-radius: var(--r-sm);
+  background-color: var(--navy);
+  box-shadow: 0 16px 32px -16px rgba(28, 48, 74, .6);
+  color: #fff;
+  font: 400 0.875rem/1.45 var(--sans);
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+
+  // The arrow follows the term when the tooltip is nudged to stay on screen (home.js).
+  &::after {
+    left: var(--arrow-x, 50%);
+    border-top-color: var(--navy);
+  }
+}
+
+// Bridge the gap between term and tooltip so the pointer can move onto it (WCAG 1.4.13).
+.usa-tooltip__body--top::before,
+.usa-tooltip__body--bottom::before {
+  height: 12px;
+}
+
+// USWDS widens clipped tooltips to half the viewport; keep ours compact instead.
+.usa-tooltip__body--wrap {
+  width: max-content;
+  min-width: 0;
+  text-align: left;
+}
+
+.usa-tooltip__body--bottom::after {
+  border-bottom-color: var(--navy);
+}
+
+.usa-tooltip__body--left::after {
+  border-left-color: var(--navy);
+}
+
+.usa-tooltip__body--right::after {
+  border-right-color: var(--navy);
+}
+
+.tooltip-hint {
+  display: block;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, .2);
+  color: var(--bright);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+@media (forced-colors: active) {
+  .usa-tooltip__body {
+    border: 1px solid CanvasText;
+  }
+}
