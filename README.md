@@ -53,6 +53,73 @@ Drag and drop the `index.html` file into a browser to see the website. Once you 
 - `npm test` runs the unit tests in `test/unit` (Mocha + jsdom).
 - `npm run test:e2e` builds the site and runs the Playwright tests in `test/e2e` against it on port 8099. Run `npx playwright install chromium` once first. Stop `npm run dev` before running them, since both write to `_site`. If the browser download is blocked, run `PLAYWRIGHT_CHANNEL=chrome npm run test:e2e` to use your installed Chrome.
 
+## Tool Previews
+
+The tool cards on the homepage show real screenshots of the live tools, not hand-built mockups. A script takes the screenshots, and the site displays them. Cards with two or more screenshots get a Previous/Next carousel.
+
+### Regenerate the previews
+
+```
+npm run previews
+```
+
+The script opens each live tool in a browser, puts it in the state we want, and saves the screenshots to `assets/_common/_img/previews/`. It also rewrites `_data/previews.json` with each image's size and alt text. Commit both the images and `previews.json`, and look at the images before you commit.
+
+- Run `npx playwright install chromium` once first.
+- If the browser download is blocked, run `PLAYWRIGHT_CHANNEL=chrome npm run previews` to use your installed Chrome.
+- The tools are captured live, so you need internet access, and the screenshots reflect the tools as they are today.
+
+### Add a tool or a screenshot
+
+Everything is data in the `previews` array in `scripts/capture-previews.js`. Add an entry:
+
+```javascript
+{
+  tool: 'my-tool',                       // becomes the key in previews.json
+  url: 'https://example.github.io/my-tool/',
+  ready: '#app input',                   // optional: wait for this before capturing
+  shots: [
+    {
+      name: 'step-1',
+      target: '#my-form',
+      alt: 'My Tool: a description of what the screenshot shows.',
+      setup: async (page) => { /* optional: click, type, select */ },
+      verify: async (page) => { /* optional: check that setup worked */ },
+    },
+  ],
+},
+```
+
+Then show it on the homepage by adding this include to the tool's card in `index.html`:
+
+```
+{% include 'tool-preview.html', shots: previews["my-tool"], label: "My Tool" %}
+```
+
+The `label` is used in the carousel's button names, so write it the way you'd say it out loud.
+
+### The `name` and `target` rule
+
+Every shot **must have a `name` and a `target`**.
+
+- `name` becomes the file name: `<tool>-<name>.png`. Names must be unique within a tool.
+- `target` is a CSS selector for the element where the screenshot starts. The script crops a fixed 4:3 region beginning at that element, so every image has the same shape and fills the preview window with no blank space and no cropping. If a screenshot looks wrong, change the `target` (or `pad`, the margin around it).
+
+Optional fields:
+
+- `pad`: margin around the target in pixels. The default is 32, and `0` starts flush with the target's edge.
+- `setup`: puts the page in the state to capture, such as filling in sample data.
+- `verify`: checks that `setup` worked, so a bad capture fails loudly instead of being saved.
+- `alt`: the image's text description. Always provide it. An image without one is treated as decorative and screen reader users will miss it.
+
+### Automatic updates
+
+The workflow `.github/workflows/update-previews.yml` runs the script every Monday and can be run by hand from the **Actions** tab (select **Update Tool Previews**, then **Run workflow**). If any image changed, it opens a pull request on the `chore/update-previews` branch. Review the images in that PR before merging, because the live tools may have changed in a way that makes a screenshot misleading.
+
+- If a tool's page changes and a selector stops matching, the run fails and no PR is opened. Update the `target` or `setup` for that shot.
+- Pull requests opened by the workflow don't trigger other checks automatically. Run the tests yourself, or push an empty commit to the branch.
+- Screenshots made on a different operating system differ slightly in font rendering, so regenerate on the same platform to avoid a PR that changes every image.
+
 ## Policies
 
 ### Open Source Policy
