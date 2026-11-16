@@ -33,31 +33,38 @@ To create an agency-index.json:
       <td>required</td>
       <td>str</td>
       <td>The agency acronym for Clinger Cohen Act agency, as defined by the United States Government Manual.</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><strong>measurementType/method <span class="schema-required" aria-hidden="true">*</span></strong></td>
-      <td>required</td>
-      <td>str</td>
-      <td>An enumerated list of methods for measuring the open source requirement.</td>
       <td>
-        - linesOfCode<br>
-        - modules<br>
-        - cost<br>
-        - projects<br>
-        - systems<br>
-        - other<br>
+        - USDA<br>
+        - DOC<br>
+        - DOD<br>
+        - ED<br>
+        - DOE<br>
+        - HHS<br>
+        - HUD<br>
+        - DHS<br>
+        - DOI<br>
+        - DOJ<br>
+        - DOL<br>
+        - DOS<br>
+        - DOT<br>
+        - TREASURY<br>
+        - VA<br>
+        - CFPB<br>
+        - EPA<br>
+        - FEC<br>
+        - GSA<br>
+        - NARA<br>
+        - NASA<br>
+        - NRC<br>
+        - NSF<br>
+        - OPM<br>
+        - SBA<br>
+        - SSA<br>
+        - USAID
       </td>
     </tr>
     <tr>
-      <td>measurementType/ifOther <small class="schema-optional">(optional)</small></td>
-      <td>optional</td>
-      <td>str</td>
-      <td>A one- or two- sentence description of the measurement type used, if 'other' is selected as the value of 'method' field.</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><strong>releases <span class="schema-required" aria-hidden="true">*</span></strong></td>
+      <td>releases</td>
       <td>required</td>
       <td>array</td>
       <td>An array of code.json objects containing each versioned source code release made available. </td>
@@ -73,6 +80,6 @@ To create an agency-index.json:
   </tbody>
 </table>
 
-View the agency-index.json schema here: https://github.com/GSA-SHARE-IT/codejson-schemas/tree/main/schemas/agency-index/schema-2.0.0.json
+View the agency-index.json schema here: https://github.com/GSA-SHARE-IT/codejson-schemas/tree/main/schemas/agency-index/schema-1.0.0.json
 
 More examples of agency index files can be found here: https://github.com/DSACMS/code-gov/tree/main/agency-indexes
